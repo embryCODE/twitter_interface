@@ -45,6 +45,7 @@ var app = express();
 
 app.listen(3000);
 app.use(express.static(path.join(__dirname, 'public')));
+app.on('error', displayError);
 
 
 
@@ -66,3 +67,19 @@ app.get('/', function(req, res, next) {
     title: 'Twitter Client'
   });
 });
+
+
+
+/**
+ * ERROR HANDLING
+ */
+
+function displayError() {
+  console.log('error placeholder');
+}
+
+
+
+/**
+ * TWITTER APP
+ */

@@ -67,6 +67,7 @@ app.set('view engine', 'pug');
 app.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Twitter Client',
+    user: user,
     user_timeline: user_timeline,
     friends: friends,
     direct_messages: direct_messages
@@ -79,9 +80,14 @@ app.get('/', function(req, res, next) {
  * TWITTER APP
  */
 
-var user_timeline,
+var user,
+    user_timeline,
     friends,
     direct_messages;
+
+twitter.get('users/show', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+  user = data;
+});
 
 twitter.get('statuses/user_timeline', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
   user_timeline = data;

@@ -17,4 +17,4 @@ The ability to look at a layout and see the data behind it is an essential skill
 Installation
 =====
 
-1. Open "keys_example" and follow the instructions at the top of the file.
+1. Open "config_example" and follow the instructions at the top of the file.

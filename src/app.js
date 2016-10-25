@@ -18,7 +18,7 @@
  */
 
 var Twit = require('twit'),
-  keys = require('./keys'),
+  config = require('./config'),
   express = require('express'),
   path = require('path'),
   http = require('http'),
@@ -31,10 +31,10 @@ var Twit = require('twit'),
  */
 
 /**
- * Create twit object.
+ * Create twitter object.
  * @param {object} keys OAuth keys from separate file.
  */
-var twit = new Twit(keys);
+var twitter = new Twit(config);
 
 var app = express();
 
@@ -44,7 +44,9 @@ var app = express();
  * SERVER SETUP
  */
 
-app.listen(3000);
+app.listen(3000, function() {
+	console.log("Server running on port 3000.");
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -64,7 +66,10 @@ app.set('view engine', 'pug');
 
 app.get('/', function(req, res, next) {
   res.render('index', {
-    title: 'Twitter Client'
+    title: 'Twitter Client',
+    user_timeline: user_timeline,
+    friends: friends,
+    direct_messages: direct_messages
   });
 });
 
@@ -74,4 +79,18 @@ app.get('/', function(req, res, next) {
  * TWITTER APP
  */
 
-// CODE GOES HERE
+var user_timeline,
+    friends,
+    direct_messages;
+
+twitter.get('statuses/user_timeline', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+  user_timeline = data;
+});
+
+twitter.get('friends/list', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+  friends = data;
+});
+
+twitter.get('statuses/direct_messages', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+  direct_messages = data;
+});

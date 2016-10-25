@@ -70,7 +70,8 @@ app.get('/', function(req, res, next) {
     user: user,
     user_timeline: user_timeline,
     friends: friends,
-    direct_messages: direct_messages
+    direct_messages: direct_messages,
+    config: config
   });
 });
 
@@ -85,7 +86,7 @@ var user,
     friends,
     direct_messages;
 
-twitter.get('users/show', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+twitter.get('users/show', { screen_name: config.screen_name}, function(err, data, response) {
   user = data;
 });
 
@@ -97,6 +98,6 @@ twitter.get('friends/list', { screen_name: config.screen_name, count: 5 }, funct
   friends = data;
 });
 
-twitter.get('statuses/direct_messages', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+twitter.get('direct_messages/sent', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
   direct_messages = data;
 });

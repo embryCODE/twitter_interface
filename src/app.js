@@ -21,7 +21,8 @@ var Twit = require('twit'),
   keys = require('./keys'),
   express = require('express'),
   path = require('path'),
-  http = require('http');
+  http = require('http'),
+  createError = require('http-errors');
 
 
 
@@ -45,7 +46,6 @@ var app = express();
 
 app.listen(3000);
 app.use(express.static(path.join(__dirname, 'public')));
-app.on('error', displayError);
 
 
 
@@ -71,15 +71,7 @@ app.get('/', function(req, res, next) {
 
 
 /**
- * ERROR HANDLING
- */
-
-function displayError() {
-  console.log('error placeholder');
-}
-
-
-
-/**
  * TWITTER APP
  */
+
+// CODE GOES HERE

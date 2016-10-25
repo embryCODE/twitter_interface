@@ -3,6 +3,7 @@
   "globals": {
     "require": true,
     "module": true,
-    "console": true
+    "console": true,
+    "__dirname": true
   }
 }

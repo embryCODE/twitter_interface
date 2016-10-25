@@ -12,11 +12,57 @@
  */
 
 
+
+/**
+ * MODULES
+ */
+
 var Twit = require('twit'),
-  keys = require('./keys');
+  keys = require('./keys'),
+  express = require('express'),
+  path = require('path'),
+  http = require('http');
+
+
+
+/**
+ * TWITTER AUTHORIZATION
+ */
 
 /**
  * Create twit object.
  * @param {object} keys OAuth keys from separate file.
  */
 var twit = new Twit(keys);
+
+var app = express();
+
+
+
+/**
+ * SERVER SETUP
+ */
+
+app.listen(3000);
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+/**
+ * VIEWS SETUP
+ */
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+
+
+/**
+ * ROUTING
+ */
+
+app.get('/', function(req, res, next) {
+  res.render('index', {
+    title: 'Twitter Client'
+  });
+});

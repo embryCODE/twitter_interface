@@ -3500,7 +3500,7 @@ a:hover .app--avatar {
   position: absolute;
   left: -8px;
   bottom: 0px;
-  background: #a86cc6 url("../images/message-tail.svg") no-repeat;
+  background: #a86cc6 url("../img/message-tail.svg") no-repeat;
   width: 16px;
   height: 20px;
 }
@@ -3558,7 +3558,7 @@ a:hover .app--avatar {
 /* line 267, ../sass/global.sass */
 
 .app--message--me .app--message--text:after {
-  background: #1da1f2 url("../images/message-tail-me.svg") no-repeat;
+  background: #1da1f2 url("../img/message-tail-me.svg") no-repeat;
   left: auto;
   right: -8px;
 }

@@ -45,7 +45,7 @@ var app = express();
  */
 
 app.listen(3000, function() {
-	console.log("Server running on port 3000.");
+  console.log("Server running on port 3000.");
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -70,7 +70,7 @@ app.get('/', function(req, res, next) {
     user: user,
     user_timeline: user_timeline,
     friends: friends,
-    direct_messages: direct_messages,
+    direct_messages_array: direct_messages_array,
     config: config
   });
 });
@@ -82,22 +82,43 @@ app.get('/', function(req, res, next) {
  */
 
 var user,
-    user_timeline,
-    friends,
-    direct_messages;
+  user_timeline,
+  friends,
+  direct_messages_sent,
+  direct_messages_received,
+  direct_messages_array;
 
-twitter.get('users/show', { screen_name: config.screen_name}, function(err, data, response) {
-  user = data;
-});
+twitter.get('users/show', {
+    screen_name: config.screen_name
+  },
+  function(err, data, response) {
+    user = data;
+  });
 
-twitter.get('statuses/user_timeline', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
-  user_timeline = data;
-});
+twitter.get('statuses/user_timeline', {
+    screen_name: config.screen_name,
+    count: 5
+  },
+  function(err, data, response) {
+    user_timeline = data;
+  }
+);
 
-twitter.get('friends/list', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
+twitter.get('friends/list', {
+  screen_name: config.screen_name,
+  count: 5
+}, function(err, data, response) {
   friends = data;
 });
 
-twitter.get('direct_messages/sent', { screen_name: config.screen_name, count: 5 }, function(err, data, response) {
-  direct_messages = data;
+twitter.get('direct_messages/sent', {
+  count: 5
+}, function(err, data, response) {
+  direct_messages_sent = data;
+});
+
+twitter.get('direct_messages', {
+  count: 5
+}, function(err, data, response) {
+  direct_messages_received = data;
 });

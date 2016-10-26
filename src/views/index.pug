@@ -81,7 +81,10 @@ block content
           li
             h3
               | Conversation with
-              a  @PLACEHOLDER
+              if direct_messages_array[0].recipient.screen_name === config.screen_name
+                a  @#{direct_messages_array[0].sender.screen_name}
+              else
+                a  @#{direct_messages_array[0].recipient.screen_name}
             ul.app--message--conversation
               each message in direct_messages_array
                 if message.recipient.screen_name === config.screen_name

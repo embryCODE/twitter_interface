@@ -21,7 +21,6 @@ var Twit = require('twit'),
   config = require('./config'),
   express = require('express'),
   path = require('path'),
-  http = require('http'),
   createError = require('http-errors');
 
 
@@ -45,7 +44,7 @@ var app = express();
  */
 
 app.listen(3000, function() {
-  console.log("Server running on port 3000.");
+  console.log('Server running on port 3000.');
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -136,22 +135,21 @@ var getDMReceived = new Promise(function(resolve, reject) {
   });
 });
 
-Promise.all([getDMSent, getDMReceived]).then(function(results) {
+Promise.all([getDMSent, getDMReceived]).then(function() {
 
-    // Concats the two arrays together.
-    direct_messages_array = direct_messages_sent.concat(direct_messages_received);
+  // Concats the two arrays together.
+  direct_messages_array = direct_messages_sent.concat(direct_messages_received);
 
-    // Sorts messages by id, which should make them oldest to newest in the array.
-    direct_messages_array.sort(function(a, b) {
-      return parseFloat(a.id) - parseFloat(b.id);
-    });
-
-    // Reverse order so newest messages are first in the array.
-    direct_messages_array.reverse();
-
-    // Reduce length to only five messages.
-    direct_messages_array.splice(-5, 5);
-  })
-  .catch(function(error) {
-    console.log('there was an error'); // INSERT REAL ERROR HANDLING HERE
+  // Sorts messages by id, which should make them oldest to newest in the array.
+  direct_messages_array.sort(function(a, b) {
+    return parseFloat(a.id) - parseFloat(b.id);
   });
+
+  // Reverse order so newest messages are first in the array.
+  direct_messages_array.reverse();
+
+  // Reduce length to only five messages.
+  direct_messages_array.splice(-5, 5);
+}).catch(function(error) {
+  console.log('there was an error'); // INSERT REAL ERROR HANDLING HERE
+});

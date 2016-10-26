@@ -111,14 +111,35 @@ twitter.get('friends/list', {
   friends = data;
 });
 
-twitter.get('direct_messages/sent', {
-  count: 5
-}, function(err, data, response) {
-  direct_messages_sent = data;
+var getDMSent = new Promise(function(resolve, reject) {
+  twitter.get('direct_messages/sent', {
+    count: 5
+  }, function(err, data, response) {
+    if (data) {
+      resolve(direct_messages_sent = data);
+    } else {
+      reject(console.log('there was an error')); // INSERT REAL ERROR HANDLING HERE
+    }
+  });
 });
 
-twitter.get('direct_messages', {
-  count: 5
-}, function(err, data, response) {
-  direct_messages_received = data;
+var getDMReceived = new Promise(function(resolve, reject) {
+  twitter.get('direct_messages', {
+    count: 5
+  }, function(err, data, response) {
+
+    if (data) {
+      resolve(direct_messages_received = data);
+    } else {
+      reject(console.log('there was an error')); // INSERT REAL ERROR HANDLING HERE
+    }
+  });
+});
+
+Promise.all([getDMSent, getDMReceived]).then(function(results) {
+	direct_messages_array = direct_messages_sent.concat(direct_messages_received);
+  console.log(direct_messages_array);
+})
+.catch(function(error) {
+	console.log('there was an error'); // INSERT REAL ERROR HANDLING HERE
 });

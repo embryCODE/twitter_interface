@@ -4,6 +4,7 @@
     "require": true,
     "module": true,
     "console": true,
-    "__dirname": true
+    "__dirname": true,
+    "Promise": true
   }
 }

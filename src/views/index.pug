@@ -28,7 +28,7 @@ block content
         ul.app--tweet--list
           each tweet in user_timeline
             li
-              strong.app--tweet--timestamp 4h
+              strong.app--tweet--timestamp #{tweet.created_at}
               a.app--tweet--author
                 .app--avatar(style='background-image: url(' + user.profile_image_url_https + ')')
                   img(src=user.profile_image_url_https)
@@ -81,18 +81,18 @@ block content
           li
             h3
               | Conversation with
-              a  #{direct_messages[0].recipient.screen_name}
+              a  @PLACEHOLDER
             ul.app--message--conversation
-              each message in direct_messages
-                if message.sender.screen_name === config.screen_name
+              each message in direct_messages_array
+                if message.recipient.screen_name === config.screen_name
                   li.app--message--me
                     .app--avatar(style='background-image: url(' + message.sender.profile_image_url_https + ')')
                       img(src=message.sender.profile_image_url_https)
                     p.app--message--text #{message.text}
-                    p.app--message--timestamp #{message.sender.created_at}
+                    p.app--message--timestamp #{message.created_at}
                 else
                   li.app--message
-                    .app--avatar(style='background-image: url(' + message.recipient.profile_image_url_https + ')')
-                      img(src=message.recipient.profile_image_url_https)
+                    .app--avatar(style='background-image: url(' + message.sender.profile_image_url_https + ')')
+                      img(src=message.sender.profile_image_url_https)
                     p.app--message--text #{message.text}
-                    p.app--message--timestamp #{message.recipient.created_at}
+                    p.app--message--timestamp #{message.created_at}

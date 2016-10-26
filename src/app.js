@@ -137,9 +137,21 @@ var getDMReceived = new Promise(function(resolve, reject) {
 });
 
 Promise.all([getDMSent, getDMReceived]).then(function(results) {
-	direct_messages_array = direct_messages_sent.concat(direct_messages_received);
-  console.log(direct_messages_array);
-})
-.catch(function(error) {
-	console.log('there was an error'); // INSERT REAL ERROR HANDLING HERE
-});
+
+    // Concats the two arrays together.
+    direct_messages_array = direct_messages_sent.concat(direct_messages_received);
+
+    // Sorts messages by id, which should make them oldest to newest in the array.
+    direct_messages_array.sort(function(a, b) {
+      return parseFloat(a.id) - parseFloat(b.id);
+    });
+
+    // Reverse order so newest messages are first in the array.
+    direct_messages_array.reverse();
+
+    // Reduce length to only five messages.
+    direct_messages_array.splice(-5, 5);
+  })
+  .catch(function(error) {
+    console.log('there was an error'); // INSERT REAL ERROR HANDLING HERE
+  });

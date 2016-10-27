@@ -108,7 +108,9 @@ function getTwitterData(req, res, next) {
  * Posts a tweet to twitter.
  */
 function postTweet(req, res, next) {
-  twitter.post('statuses/update', { status: req.body.tweet }, function(err, data, response) {
+  twitter.post('statuses/update', {
+    status: req.body.tweet
+  }, function(err, data, response) {
     if (!err) {
       res.send('Your tweet was tweeted!');
       getTwitterData(req, res, next);
@@ -123,7 +125,9 @@ function postTweet(req, res, next) {
  */
 function handleError(err, req, res, next) {
   res.status(500);
-  res.render('error', {err: err});
+  res.render('error', {
+    err: err
+  });
 }
 
 

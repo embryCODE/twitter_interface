@@ -47,7 +47,9 @@ app.set('view engine', 'pug');
 /**
  * Body parser to make request data easily usable.
  */
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 /**
  * Respond to a GET request at root by calling getTwitterData() and rendering

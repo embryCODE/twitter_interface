@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  .app--tweet
+    form
+      .circle--fluid
+        .circle--fluid--cell.circle--fluid--primary.align-bottom.app--tweet--post
+          .app--avatar(style='background-image: url(' + user.profile_image_url_https + ')')
+            img(src=user.profile_image_url_https)
+          textarea#tweet-textarea.circle--textarea--input(placeholder="What's happening?")
+          strong#tweet-char.app--tweet--char 140
+        .circle--fluid--cell.align-bottom
+          button.button-primary Tweet
+  .bounds.app--body
+    .app--section--header
+      .grid-33
+        .app--section--heading
+          h2 Timeline
+      .grid-33
+        .app--section--heading
+          strong #{user.friends_count}
+          h2 Following
+      .grid-33
+        .app--section--heading
+          h2 Direct Messages
+    .grid-33
+      .app--section
+        include partials/_tweets
+    .grid-33
+      .app--section
+        ul.app--user--list
+          each friend in friends.users
+            li
+              .circle--fluid
+                .circle--fluid--cell.circle--fluid--primary
+                  a.app--tweet--author
+                    .app--avatar(style='background-image: url(' + friend.profile_image_url_https + ')')
+                      img(src=friend.profile_image_url_https)
+                    h4 #{friend.name}
+                    p @#{friend.screen_name}
+                .circle--fluid--cell
+                  a.button.button-text Unfollow
+    .grid-33
+      .app--section
+        ul.app--message--list
+          li
+            h3
+              | Conversation with
+              if direct_messages_array[0].recipient.screen_name === config.screen_name
+                a  @#{direct_messages_array[0].sender.screen_name}
+              else
+                a  @#{direct_messages_array[0].recipient.screen_name}
+            ul.app--message--conversation
+              each message in direct_messages_array
+                if message.recipient.screen_name === config.screen_name
+                  li.app--message--me
+                    .app--avatar(style='background-image: url(' + message.sender.profile_image_url_https + ')')
+                      img(src=message.sender.profile_image_url_https)
+                    p.app--message--text #{message.text}
+                    p.app--message--timestamp #{message.created_at}
+                else
+                  li.app--message
+                    .app--avatar(style='background-image: url(' + message.sender.profile_image_url_https + ')')
+                      img(src=message.sender.profile_image_url_https)
+                    p.app--message--text #{message.text}
+                    p.app--message--timestamp #{message.created_at}

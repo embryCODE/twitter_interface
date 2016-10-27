@@ -1,8 +1,12 @@
 'use strict';
 
+/**
+ * Module for talking to Twitter APIs.
+ * @module twitter
+ */
+
 var Twit = require('twit'),
-  config = require('./config'),
-  createError = require('http-errors');
+  config = require('./config');
 
 
 
@@ -22,6 +26,9 @@ var twitter = new Twit(config);
  * TWITTER API CALLS
  */
 
+/**
+ * Gets all necessary data from Twitter and calls render.
+ */
 function getTwitterData(req, res, next) {
   twitter.get('users/show', {
       screen_name: config.screen_name
@@ -97,6 +104,9 @@ function getTwitterData(req, res, next) {
   );
 }
 
+/**
+ * Posts a tweet to twitter.
+ */
 function postTweet(req, res, next) {
   twitter.post('statuses/update', { status: req.body.tweet }, function(err, data, response) {
     if (!err) {
@@ -108,6 +118,9 @@ function postTweet(req, res, next) {
   });
 }
 
+/**
+ * Renders an error handler template.
+ */
 function handleError(err, req, res, next) {
   res.status(500);
   res.render('error', {err: err});

@@ -10,7 +10,7 @@
 $('.app--tweet form').submit(function(e) {
   e.preventDefault();
   var postData = $('#tweet-textarea').val();
-  $.post('/', postData);
+  $.post('/', {tweet: postData});
 });
 
 })();

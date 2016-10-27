@@ -19,7 +19,8 @@
 
 var express = require('express'),
   path = require('path'),
-  twitter = require('./twitter');
+  twitter = require('./twitter'),
+  bodyParser = require('body-parser');
 
 var app = express();
 
@@ -48,6 +49,9 @@ app.set('view engine', 'pug');
 /**
  * ROUTING
  */
+
+
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function(req, res, next) {
   twitter.getTwitterData(req, res, next);

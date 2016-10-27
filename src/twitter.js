@@ -23,7 +23,7 @@ var twitter = new Twit(config);
  */
 
 function getTwitterData(req, res, next) {
-  twitter.get('ASDFusers/show', {
+  twitter.get('users/show', {
       screen_name: config.screen_name
     },
     function(err, data, response) {
@@ -98,7 +98,9 @@ function getTwitterData(req, res, next) {
 }
 
 function postTweet(req, res, next) {
-  console.log(req);
+  twitter.post('statuses/update', { status: req.body.tweet }, function(err, data, response) {
+    console.log(data);
+  });
 }
 
 function handleError(err, req, res, next) {

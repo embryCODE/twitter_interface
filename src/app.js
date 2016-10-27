@@ -19,7 +19,6 @@
 
 var express = require('express'),
   path = require('path'),
-  createError = require('http-errors'),
   twitter = require('./twitter');
 
 var app = express();
@@ -52,4 +51,8 @@ app.set('view engine', 'pug');
 
 app.get('/', function(req, res, next) {
   twitter.getTwitterData(req, res, next);
+});
+
+app.post('/', function(req, res, next) {
+  twitter.postTweet(req, res, next);
 });

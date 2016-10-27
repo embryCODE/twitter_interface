@@ -78,27 +78,27 @@ function getTwitterData(req, res, next) {
                                   config: config
                                 });
                               } else {
-                                handleError(err, req, res, next);
+                                return next(err);
                               }
                             }
                           );
                         } else {
-                          handleError(err, req, res, next);
+                          return next(err);
                         }
                       }
                     );
                   } else {
-                    handleError(err, req, res, next);
+                    return next(err);
                   }
                 }
               );
             } else {
-              handleError(err, req, res, next);
+              return next(err);
             }
           }
         );
       } else {
-        handleError(err, req, res, next);
+        return next(err);
       }
     }
   );
@@ -108,7 +108,7 @@ function getTwitterData(req, res, next) {
  * Posts a tweet to twitter.
  */
 function postTweet(req, res, next) {
-  twitter.post('statuses/update', {
+  twitter.post('ASDFstatuses/update', {
     status: req.body.tweet
   }, function(err, data, response) {
     if (!err) {
@@ -116,17 +116,8 @@ function postTweet(req, res, next) {
       getTwitterData(req, res, next);
     } else {
       res.send('Sorry, there was an error.');
+      return next(err);
     }
-  });
-}
-
-/**
- * Renders an error handler template.
- */
-function handleError(err, req, res, next) {
-  res.status(500);
-  res.render('error', {
-    err: err
   });
 }
 

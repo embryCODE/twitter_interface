@@ -7,10 +7,28 @@
     this.innerHTML = timestamp;
   });
 
-$('.app--tweet form').submit(function(e) {
-  e.preventDefault();
-  var postData = $('#tweet-textarea').val();
-  $.post('/', {tweet: postData});
-});
+  $('.app--tweet form').keyup(function() {
+    var currentChars = $('#tweet-textarea').val().length;
+    var remainingChars = 140 - currentChars;
+    $('#tweet-char').text(remainingChars);
+    if ($('#tweet-char').text() < 0) {
+      $('#tweet-char').css('color', 'red');
+    } else {
+      $('#tweet-char').css('color', '#ccc');
+    }
+  });
+
+  $('.app--tweet form').submit(function(e) {
+    e.preventDefault();
+    var postData = $('#tweet-textarea').val();
+    if (postData.length <= 140) {
+      $.post('/', {
+        tweet: postData
+      }, function(cbData) {
+        console.log(cbData);
+      });
+      $('#tweet-textarea').val('');
+    }
+  });
 
 })();

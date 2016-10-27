@@ -64,14 +64,7 @@ app.set('view engine', 'pug');
  */
 
 app.get('/', function(req, res, next) {
-  res.render('index', {
-    title: 'Twitter Client',
-    user: user,
-    user_timeline: user_timeline,
-    friends: friends,
-    direct_messages_array: direct_messages_array,
-    config: config
-  });
+  getTwitterData(req, res, next);
 });
 
 
@@ -80,76 +73,57 @@ app.get('/', function(req, res, next) {
  * TWITTER APP
  */
 
-var user,
-  user_timeline,
-  friends,
-  direct_messages_sent,
-  direct_messages_received,
-  direct_messages_array;
+function getTwitterData(req, res, next) {
+  twitter.get('users/show', {
+      screen_name: config.screen_name
+    },
+    function(err, data, response) {
+      var user = data;
+      twitter.get('statuses/user_timeline', {
+          screen_name: config.screen_name,
+          count: 5
+        },
+        function(err, data, response) {
+          var user_timeline = data;
+          twitter.get('friends/list', {
+            screen_name: config.screen_name,
+            count: 5
+          }, function(err, data, response) {
+            var friends = data;
+            twitter.get('direct_messages/sent', {
+              count: 5
+            }, function(err, data, response) {
+              var direct_messages_sent = data;
+              twitter.get('direct_messages', {
+                count: 5
+              }, function(err, data, response) {
+                var direct_messages_received = data;
+                // Concats the two arrays together.
+                var direct_messages_array = direct_messages_sent.concat(direct_messages_received);
 
-twitter.get('users/show', {
-    screen_name: config.screen_name
-  },
-  function(err, data, response) {
-    user = data;
-  });
+                // Sorts messages by id, which should make them oldest to newest in the array.
+                direct_messages_array.sort(function(a, b) {
+                  return parseFloat(a.id) - parseFloat(b.id);
+                });
 
-twitter.get('statuses/user_timeline', {
-    screen_name: config.screen_name,
-    count: 5
-  },
-  function(err, data, response) {
-    user_timeline = data;
-  }
-);
+                // Reverse order so newest messages are first in the array.
+                direct_messages_array.reverse();
 
-twitter.get('friends/list', {
-  screen_name: config.screen_name,
-  count: 5
-}, function(err, data, response) {
-  friends = data;
-});
+                // Reduce length to only five messages.
+                direct_messages_array.splice(-5, 5);
 
-var getDMSent = new Promise(function(resolve, reject) {
-  twitter.get('direct_messages/sent', {
-    count: 5
-  }, function(err, data, response) {
-    if (data) {
-      resolve(direct_messages_sent = data);
-    } else {
-      reject(console.log('there was an error')); // INSERT REAL ERROR HANDLING HERE
-    }
-  });
-});
+                res.render('index', {
+                  title: 'Twitter Client',
+                  user: user,
+                  user_timeline: user_timeline,
+                  friends: friends,
+                  direct_messages_array: direct_messages_array,
+                  config: config
+                });
 
-var getDMReceived = new Promise(function(resolve, reject) {
-  twitter.get('direct_messages', {
-    count: 5
-  }, function(err, data, response) {
-
-    if (data) {
-      resolve(direct_messages_received = data);
-    } else {
-      reject(console.log('there was an error')); // INSERT REAL ERROR HANDLING HERE
-    }
-  });
-});
-
-Promise.all([getDMSent, getDMReceived]).then(function() {
-
-  // Concats the two arrays together.
-  direct_messages_array = direct_messages_sent.concat(direct_messages_received);
-
-  // Sorts messages by id, which should make them oldest to newest in the array.
-  direct_messages_array.sort(function(a, b) {
-    return parseFloat(a.id) - parseFloat(b.id);
-  });
-
-  // Reverse order so newest messages are first in the array.
-  direct_messages_array.reverse();
-
-  // Reduce length to only five messages.
-  direct_messages_array.splice(-5, 5);
-}).catch(function(error) {
-  console.log('there was an error'); // INSERT REAL ERROR HANDLING HERE
-});
+              });
+            });
+          });
+        });
+    });
+}

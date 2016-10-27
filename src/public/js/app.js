@@ -26,8 +26,13 @@
         tweet: postData
       }, function(cbData) {
         console.log(cbData);
+        $('body').load('/');
       });
       $('#tweet-textarea').val('');
+      $('#tweet-textarea').attr('placeholder', 'Posting...');
+      setTimeout(function() {
+        $('#tweet-textarea').attr('placeholder', 'What\'s happening?');
+      }, 2000);
     }
   });
 

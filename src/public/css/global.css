@@ -3569,3 +3569,22 @@ a:hover .app--avatar {
 .button, button, input[type="submit"], input[type="reset"], input[type="button"] {
   padding: 16px 20px;
 }
+
+/* ADDED STYLING */
+
+.error-container {
+  padding: 20px;
+  overflow: scroll;
+}
+
+.user-icon {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  left: 10px;
+  top: 6px;
+  z-index: 1000;
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+}

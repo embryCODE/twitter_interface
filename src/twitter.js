@@ -108,14 +108,14 @@ function getTwitterData(req, res, next) {
  * Posts a tweet to twitter.
  */
 function postTweet(req, res, next) {
-  twitter.post('ASDFstatuses/update', {
+  twitter.post('statuses/update', {
     status: req.body.tweet
   }, function(err, data, response) {
     if (!err) {
-      res.send('Your tweet was tweeted!');
+      // res.send('Your tweet was tweeted!');
       getTwitterData(req, res, next);
     } else {
-      res.send('Sorry, there was an error.');
+      //res.send('Sorry, there was an error.');
       return next(err);
     }
   });

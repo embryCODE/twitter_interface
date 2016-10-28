@@ -52,17 +52,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 /**
- * Error handler.
- */
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    err: err
-  });
-});
-
-/**
  * Respond to a GET request at root by calling getTwitterData() and rendering
  * index template.
  */
@@ -76,4 +65,15 @@ app.get('/', function(req, res, next) {
  */
 app.post('/', function(req, res, next) {
   twitter.postTweet(req, res, next);
+});
+
+/**
+ * Error handler.
+ */
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    err: err
+  });
 });

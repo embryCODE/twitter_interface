@@ -29,22 +29,24 @@
    * Submit button handler. Posts tweet to server using $.post.
    * Disabled if more than 140 characters.
    */
-  $('.app--tweet form').submit(function(e) {
-    e.preventDefault();
-    var postData = $('#tweet-textarea').val();
-    if (postData.length <= 140) {
-      $.post('/', {
-        tweet: postData
-      }, function(cbData) {
-        console.log(cbData);
-        $('body').load('/');
-      });
-      $('#tweet-textarea').val('');
-      $('#tweet-textarea').attr('placeholder', 'Posting...');
-      setTimeout(function() {
-        $('#tweet-textarea').attr('placeholder', 'What\'s happening?');
-      }, 2000);
-    }
-  });
+   $('.app--tweet form').submit(function(e) {
+     var postData = $('#tweet-textarea').val();
+     if (postData.length <= 140) {
+       $.post('/', {
+         tweet: postData
+       }, function(cbData) {
+         $('body').load('/');
+       }, "html")
+       .fail(function(error) {
+         $('body').html(error.responseText);
+       });
+       $('#tweet-textarea').val('');
+       $('#tweet-textarea').attr('placeholder', 'Posting...');
+       setTimeout(function() {
+         $('#tweet-textarea').attr('placeholder', 'What\'s happening?');
+       }, 2000);
+     }
+     e.preventDefault();
+   });
 
 })();

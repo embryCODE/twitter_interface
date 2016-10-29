@@ -3577,6 +3577,10 @@ a:hover .app--avatar {
   overflow: scroll;
 }
 
+.error-container pre {
+  font-size: .9em;
+}
+
 .user-icon {
   position: absolute;
   margin: 0;

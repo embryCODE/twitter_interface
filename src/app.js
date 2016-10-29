@@ -53,18 +53,14 @@ app.use(bodyParser.urlencoded({
 
 /**
  * Respond to a GET request at root by calling getTwitterData().
- */
-app.get('/', function(req, res, next) {
-  twitter.getTwitterData(req, res, next);
-});
+a */
+app.get('/', twitter.getTwitterData);
 
 /**
  * Respond to a POST request at root by calling postTweet() and passing in
  * the data through the req object. This data has been parsed by bodyParser.
  */
-app.post('/', function(req, res, next) {
-  twitter.postTweet(req, res, next);
-});
+app.post('/', twitter.postTweet);
 
 /**
  * Error handler.

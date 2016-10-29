@@ -52,8 +52,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 /**
- * Respond to a GET request at root by calling getTwitterData() and rendering
- * index template.
+ * Respond to a GET request at root by calling getTwitterData().
  */
 app.get('/', function(req, res, next) {
   twitter.getTwitterData(req, res, next);

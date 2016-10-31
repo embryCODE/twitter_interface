@@ -2,12 +2,12 @@ extends layout
 
 block content
   .app--tweet
-    form
+    form(action='/' method='post')
       .circle--fluid
         .circle--fluid--cell.circle--fluid--primary.align-bottom.app--tweet--post
           .app--avatar(style='background-image: url(' + user.profile_image_url_https + ')')
             img(src=user.profile_image_url_https)
-          textarea#tweet-textarea.circle--textarea--input(placeholder="What's happening?")
+          textarea#tweet-textarea.circle--textarea--input(placeholder="What's happening?" name='tweet')
           strong#tweet-char.app--tweet--char 140
         .circle--fluid--cell.align-bottom
           button.button-primary Tweet
